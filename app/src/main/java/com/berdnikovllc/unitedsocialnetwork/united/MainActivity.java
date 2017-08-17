@@ -1,9 +1,11 @@
 package com.berdnikovllc.unitedsocialnetwork.united;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +17,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        FeedFragment.OnFragmentInteractionListener,
+        MessagesFragment.OnFragmentInteractionListener,
+        PhotosFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener {
 
     FloatingActionButton fabNewPost, fabNewMessage;
 
@@ -26,6 +32,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Feed");
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame,
+                new FeedFragment(), "FEED_FRAGMENT").commit();
 
         fabNewPost = findViewById(R.id.fab_new_post);
         fabNewPost.setOnClickListener(new View.OnClickListener() {
@@ -92,23 +101,51 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handling navigation view item clicks.
         int id = item.getItemId();
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_feed) {               // FEED
-            fabNewMessage.hide();
-            fabNewPost.show();
-            setTitle(R.string.feed);
+            // Prevention of reloading fragment if it has selected already
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag("FEED_FRAGMENT");
+            if (!(fragment != null && fragment.isVisible())) {
+                fabNewMessage.hide();
+                fabNewPost.show();
+                setTitle(R.string.feed);
+                fragmentManager.beginTransaction().replace(R.id.content_frame,
+                        new FeedFragment(), "FEED_FRAGMENT").commit();
+            }
         } else if (id == R.id.nav_messages) {    // MESSAGES
-            fabNewPost.hide();
-            fabNewMessage.show();
-            setTitle(R.string.messages);
+            // Prevention of reloading fragment if it has selected already
+            Fragment fragment = getSupportFragmentManager()
+                    .findFragmentByTag("MESSAGES_FRAGMENT");
+            if (!(fragment != null && fragment.isVisible())) {
+                fabNewPost.hide();
+                fabNewMessage.show();
+                setTitle(R.string.messages);
+                fragmentManager.beginTransaction().replace(R.id.content_frame,
+                        new MessagesFragment(), "MESSAGES_FRAGMENT").commit();
+            }
         } else if (id == R.id.nav_photos) {      // PHOTOS
-            fabNewMessage.hide();
-            fabNewPost.hide();
-            setTitle(R.string.photos);
+            // Prevention of reloading fragment if it has selected already
+            Fragment fragment = getSupportFragmentManager()
+                    .findFragmentByTag("PHOTOS_FRAGMENT");
+            if (!(fragment != null && fragment.isVisible())) {
+                fabNewMessage.hide();
+                fabNewPost.hide();
+                setTitle(R.string.photos);
+                fragmentManager.beginTransaction().replace(R.id.content_frame,
+                        new PhotosFragment(), "PHOTOS_FRAGMENT").commit();
+            }
         } else if (id == R.id.nav_settings) {    // SETTINGS
-            fabNewMessage.hide();
-            fabNewPost.hide();
-            setTitle(R.string.settings);
+            // Prevention of reloading fragment if it has selected already
+            Fragment fragment = getSupportFragmentManager()
+                    .findFragmentByTag("SETTINGS_FRAGMENT");
+            if (!(fragment != null && fragment.isVisible())) {
+                fabNewMessage.hide();
+                fabNewPost.hide();
+                setTitle(R.string.settings);
+                fragmentManager.beginTransaction().replace(R.id.content_frame,
+                        new SettingsFragment(), "SETTINGS_FRAGMENT").commit();
+            }
         } else if (id == R.id.nav_send_bug) {    // BUGREPORT
             fabNewPost.hide();
             fabNewMessage.hide();
@@ -120,5 +157,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

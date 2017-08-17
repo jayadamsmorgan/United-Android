@@ -13,4 +13,7 @@
     <string name="messages">Messages</string>
     <string name="settings">Settings</string>
     <string name="title_activity_send_bug_report">SendBugReportActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
