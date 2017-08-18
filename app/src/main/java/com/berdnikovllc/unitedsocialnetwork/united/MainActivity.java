@@ -1,5 +1,6 @@
 package com.berdnikovllc.unitedsocialnetwork.united;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,10 +18,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
+        implements
+        NavigationView.OnNavigationItemSelectedListener,
+
         FeedFragment.OnFragmentInteractionListener,
+        FeedbackFragment.OnFragmentInteractionListener,
+        SearchFragment.OnFragmentInteractionListener,
         MessagesFragment.OnFragmentInteractionListener,
+        FriendsFragment.OnFragmentInteractionListener,
+        CommunitiesFragment.OnFragmentInteractionListener,
         PhotosFragment.OnFragmentInteractionListener,
+        VideosFragment.OnFragmentInteractionListener,
+        LikedFragment.OnFragmentInteractionListener,
+        YourAccountsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener {
 
     FloatingActionButton fabNewPost, fabNewMessage;
@@ -32,9 +42,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Feed");
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame,
-                new FeedFragment(), "FEED_FRAGMENT").commit();
+        loadFragment("FEED_FRAGMENT", R.string.feed, new FeedFragment());
 
         fabNewPost = findViewById(R.id.fab_new_post);
         fabNewPost.setOnClickListener(new View.OnClickListener() {
@@ -96,62 +104,77 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void loadFragment(String fragmentTag, int titleId, Fragment fragment) {
+        if (!(fragment != null && fragment.isVisible())) {
+            if (fabNewPost != null && fabNewMessage != null) {
+                switch (fragmentTag) {
+                    case "FEED_FRAGMENT":
+                        fabNewMessage.hide();
+                        fabNewPost.show();
+                        break;
+                    case "MESSAGES_FRAGMENT":
+                        fabNewPost.hide();
+                        fabNewMessage.show();
+                        break;
+                    default:
+                        fabNewMessage.hide();
+                        fabNewPost.hide();
+                        break;
+                }
+            }
+            setTitle(titleId);
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        }
+    }
+
+    @SuppressLint("ResourceType")
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handling navigation view item clicks.
+        // Handling navigationView's item clicks.
         int id = item.getItemId();
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-
-        if (id == R.id.nav_feed) {               // FEED
-            // Prevention of reloading fragment if it has selected already
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag("FEED_FRAGMENT");
-            if (!(fragment != null && fragment.isVisible())) {
-                fabNewMessage.hide();
-                fabNewPost.show();
-                setTitle(R.string.feed);
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        new FeedFragment(), "FEED_FRAGMENT").commit();
-            }
-        } else if (id == R.id.nav_messages) {    // MESSAGES
-            // Prevention of reloading fragment if it has selected already
-            Fragment fragment = getSupportFragmentManager()
-                    .findFragmentByTag("MESSAGES_FRAGMENT");
-            if (!(fragment != null && fragment.isVisible())) {
-                fabNewPost.hide();
-                fabNewMessage.show();
-                setTitle(R.string.messages);
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        new MessagesFragment(), "MESSAGES_FRAGMENT").commit();
-            }
-        } else if (id == R.id.nav_photos) {      // PHOTOS
-            // Prevention of reloading fragment if it has selected already
-            Fragment fragment = getSupportFragmentManager()
-                    .findFragmentByTag("PHOTOS_FRAGMENT");
-            if (!(fragment != null && fragment.isVisible())) {
-                fabNewMessage.hide();
-                fabNewPost.hide();
-                setTitle(R.string.photos);
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        new PhotosFragment(), "PHOTOS_FRAGMENT").commit();
-            }
-        } else if (id == R.id.nav_settings) {    // SETTINGS
-            // Prevention of reloading fragment if it has selected already
-            Fragment fragment = getSupportFragmentManager()
-                    .findFragmentByTag("SETTINGS_FRAGMENT");
-            if (!(fragment != null && fragment.isVisible())) {
-                fabNewMessage.hide();
-                fabNewPost.hide();
-                setTitle(R.string.settings);
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        new SettingsFragment(), "SETTINGS_FRAGMENT").commit();
-            }
-        } else if (id == R.id.nav_send_bug) {    // BUGREPORT
-            fabNewPost.hide();
-            fabNewMessage.hide();
-            Intent intent = new Intent(MainActivity.this,
-                    SendBugReportActivity.class);
-            startActivity(intent);
+        switch (id) {
+            case R.id.nav_feed:
+                loadFragment("FEED_FRAGMENT", R.string.feed, new FeedFragment());
+                break;
+            case R.id.nav_feedback:
+                loadFragment("FEEDBACK_FRAGMENT", R.string.feedback, new FeedbackFragment());
+                break;
+            case R.id.nav_search:
+                loadFragment("SEARCH_FRAGMENT", R.string.search, new SearchFragment());
+                break;
+            case R.id.nav_messages:
+                loadFragment("MESSAGES_FRAGMENT", R.string.messages, new MessagesFragment());
+                break;
+            case R.id.nav_friends:
+                loadFragment("FRIENDS_FRAGMENT", R.string.friends, new FriendsFragment());
+                break;
+            case R.id.nav_communities:
+                loadFragment("COMMUNITIES_FRAGMENT", R.string.communities,
+                        new CommunitiesFragment());
+                break;
+            case R.id.nav_photos:
+                loadFragment("PHOTOS_FRAGMENT", R.string.photos, new PhotosFragment());
+                break;
+            case R.id.nav_videos:
+                loadFragment("VIDEOS_FRAGMENT", R.string.videos, new VideosFragment());
+                break;
+            case R.id.nav_liked:
+                loadFragment("LIKED_FRAGMENT", R.string.liked, new LikedFragment());
+                break;
+            case R.id.nav_your_accounts:
+                loadFragment("YOUR_ACCOUNTS_FRAGMENT", R.string.your_accounts,
+                        new YourAccountsFragment());
+                break;
+            case R.id.nav_settings:
+                loadFragment("SETTINGS_FRAGMENT", R.string.settings, new SettingsFragment());
+                break;
+            case R.id.nav_send_bug:
+                Intent intent = new Intent(MainActivity.this,
+                        SendBugReportActivity.class);
+                startActivity(intent);
+                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

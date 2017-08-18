@@ -3,19 +3,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <!-- TODO: Update drawable icons -->
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/feed" />
         <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/feedback" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/search" />
+        <item
             android:id="@+id/nav_messages"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/messages" />
         <item
+            android:id="@+id/nav_friends"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/friends" />
+        <item
+            android:id="@+id/nav_communities"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/communities" />
+        <item
             android:id="@+id/nav_photos"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/photos" />
+        <item
+            android:id="@+id/nav_videos"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/videos" />
+        <item
+            android:id="@+id/nav_liked"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/liked" />
+        <item
+            android:id="@+id/nav_your_accounts"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/your_accounts" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_manage"

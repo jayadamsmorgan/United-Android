@@ -5,15 +5,24 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
     <string name="title_activity_new_post">NewPostActivity</string>
-    <string name="feed">Feed</string>
-    <string name="communicate">Communicate</string>
-    <string name="report_a_bug">Report a bug</string>
-    <string name="photos">Photos</string>
-    <string name="messages">Messages</string>
-    <string name="settings">Settings</string>
     <string name="title_activity_send_bug_report">SendBugReportActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="feed">Feed</string>
+    <string name="feedback">Feedback</string>
+    <string name="search">Search</string>
+    <string name="messages">Messages</string>
+    <string name="friends">Friends</string>
+    <string name="communities">Communities</string>
+    <string name="photos">Photos</string>
+    <string name="videos">Videos</string>
+    <string name="music">Music</string>
+    <string name="liked">Liked</string>
+    <string name="your_accounts">Your Accounts</string>
+    <string name="settings">Settings</string>
+
+    <string name="communicate">Communicate</string>
+    <string name="report_a_bug">Report a bug</string>
+
 </resources>
